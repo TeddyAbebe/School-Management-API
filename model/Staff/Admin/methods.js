@@ -30,7 +30,8 @@ async function registerAdmin() {
 }
 
 const verifyPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+  const isPasswordValid = await bcrypt.compare(enteredPassword, this.password);
+  return isPasswordValid;
 };
 
 async function loginAdmin() {

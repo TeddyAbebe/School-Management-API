@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+const { Schema } = mongoose;
 
 const teacherSchema = new Schema(
   {
@@ -100,7 +100,4 @@ const teacherSchema = new Schema(
   }
 );
 
-// Model
-const Teacher = model("Teacher", teacherSchema);
-
-module.exports = Teacher;
+module.exports = teacherSchema;

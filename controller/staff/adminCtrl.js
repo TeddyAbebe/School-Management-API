@@ -1,11 +1,23 @@
+const Admin = require("../../model/Staff/Admin");
+
 // @desc Register Admin
 // @route POST /API/v1/admins/register
 // @access Private
-const registerAdminCtrl = (req, res) => {
+const registerAdminCtrl = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  const admin = new Admin({
+    name,
+    email,
+    password,
+  });
+
   try {
+    const newAdmin = await admin.registerAdmin();
+
     res.status(201).json({
       status: "success",
-      data: "Admin has been registered",
+      data: newAdmin,
     });
   } catch (error) {
     res.json({
@@ -18,11 +30,16 @@ const registerAdminCtrl = (req, res) => {
 // @desc Login Admin
 // @route POST /API/v1/admins/login
 // @access Private
-const loginAdminCtrl = (req, res) => {
+const loginAdminCtrl = async (req, res) => {
+  const { email, password } = req.body;
+
+  const adminToLogin = new Admin({ email, password });
+
   try {
+    const loggedInAdmin = await adminToLogin.loginAdmin();
     res.status(201).json({
       status: "success",
-      data: "Admin has been login",
+      data: loggedInAdmin,
     });
   } catch (error) {
     res.json({
@@ -214,5 +231,5 @@ module.exports = {
   adminWithdrawTeacherCtrl,
   adminUnWithdrawTeacherCtrl,
   adminPublishExamCtrl,
-  adminUnPublishExamCtrl
+  adminUnPublishExamCtrl,
 };

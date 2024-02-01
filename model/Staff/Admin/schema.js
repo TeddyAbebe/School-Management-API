@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+const { Schema } = mongoose;
 
 const adminSchema = new Schema(
   {
@@ -25,7 +25,4 @@ const adminSchema = new Schema(
   }
 );
 
-// Model
-const Admin = model("Admin", adminSchema);
-
-module.exports = Admin;
+module.exports = adminSchema;

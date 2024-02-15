@@ -31,6 +31,8 @@ const loginAdminCtrl = async (req, res) => {
 
   try {
     const loggedInAdmin = await adminToLogin.loginAdmin();
+
+    req.userAuth = loggedInAdmin;
     res.status(201).json({
       status: "success",
       data: loggedInAdmin,

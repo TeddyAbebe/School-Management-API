@@ -1,9 +1,10 @@
-const Admin = require("../../model/Staff/Admin");
+const AsyncHandler = require("express-async-handler");
+const Admin = require("../../../model/Staff/Admin");
 
 // @desc Register Admin
 // @route POST /API/v1/admins/register
 // @access Private
-const registerAdminCtrl = async (req, res) => {
+const registerAdminCtrl = AsyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
   const admin = new Admin({
@@ -12,20 +13,13 @@ const registerAdminCtrl = async (req, res) => {
     password,
   });
 
-  try {
-    const newAdmin = await admin.registerAdmin();
+  const newAdmin = await admin.registerAdmin();
 
-    res.status(201).json({
-      status: "success",
-      data: newAdmin,
-    });
-  } catch (error) {
-    res.json({
-      status: "failed",
-      error: error.message,
-    });
-  }
-};
+  res.status(201).json({
+    status: "success",
+    data: newAdmin,
+  });
+});
 
 // @desc Login Admin
 // @route POST /API/v1/admins/login

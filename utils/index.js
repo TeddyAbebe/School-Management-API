@@ -3,6 +3,16 @@ const bcrypt = require("bcryptjs");
 const modelNames = {
   admin: "Admin",
   teacher: "Teacher",
+  student: "Student",
+  classLevel: "ClassLevel",
+  program: "Program",
+  subject: "Subject",
+  questions: "Questions",
+  exam: "Exam",
+  examResults: "ExamResults",
+  yearGroup: "YearGroup",
+  academicYear: "AcademicYear",
+  academicTerm: "AcademicTerm",
 };
 
 const generateHashedPassword = async (cleanPassword) => {

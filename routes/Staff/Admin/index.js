@@ -12,7 +12,7 @@ const {
   adminUnWithdrawTeacherCtrl,
   adminUnPublishExamCtrl,
   adminPublishExamCtrl,
-} = require("../../controller/staff/adminCtrl");
+} = require("../../../controller/Staff/Admin");
 
 const adminRouter = express.Router();
 

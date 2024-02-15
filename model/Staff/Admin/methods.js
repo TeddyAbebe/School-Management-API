@@ -48,9 +48,9 @@ async function loginAdmin() {
     }
 
     // Verify Password
-    const isPasswordValid = await verifyPassword.call(user, password);
+    const validPassword = await verifyPassword.call(user, password);
 
-    if (!isPasswordValid) {
+    if (!validPassword) {
       const error = new Error("Invalid Credentials");
       error.status = 401; // HTTP Unauthorized status code
       throw error;

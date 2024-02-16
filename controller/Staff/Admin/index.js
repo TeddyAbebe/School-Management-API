@@ -19,6 +19,7 @@ const registerAdminCtrl = AsyncHandler(async (req, res) => {
   res.status(201).json({
     status: "success",
     data: newAdmin,
+    message: "Admin registered successfully",
   });
 });
 
@@ -31,48 +32,45 @@ const loginAdminCtrl = AsyncHandler(async (req, res) => {
   const adminToLogin = new Admin({ email, password });
 
   const loggedInAdmin = await adminToLogin.loginAdmin();
-  const token = generateToken(loggedInAdmin._id);
-  const verify = verifyToken(token);
 
   res.status(201).json({
     status: "success",
-    data: [generateToken(loggedInAdmin._id), loggedInAdmin, verify],
+    data: generateToken(loggedInAdmin._id),
+    message: "Admin logged in successfully",
   });
 });
 
 // @desc Get All Admins
 // @route GET /API/v1/admins
 // @access Private
-const getAdminsCtrl = (req, res) => {
-  try {
-    res.status(201).json({
-      status: "success",
-      data: "All admins",
-    });
-  } catch (error) {
-    res.json({
-      status: "failed",
-      error: error.message,
-    });
-  }
-};
+const getAdminsCtrl = AsyncHandler(async (req, res) => {
+  const admins = await Admin.find();
+
+  res.status(200).json({
+    status: "success",
+    message: "Admin fetched successfully",
+    data: admins,
+  });
+});
 
 // @desc Get Single Admins
 // @route GET /API/v1/admins/:id
 // @access Private
-const getAdminCtrl = (req, res) => {
-  try {
-    res.status(201).json({
+const getAdminProfileCtrl = AsyncHandler(async (req, res) => {
+  const Id = req.userAuth._id;
+  const admin = await Admin.findById(Id).select(
+    "-password -createdAt -updatedAt"
+  );
+  if (!admin) {
+    throw new Error("Admin Not Found");
+  } else {
+    res.status(200).json({
       status: "success",
-      data: "Single admin",
-    });
-  } catch (error) {
-    res.json({
-      status: "failed",
-      error: error.message,
+      data: admin,
+      message: "Admin profile fetched successfully",
     });
   }
-};
+});
 
 // @desc Update Admins
 // @route PUT /API/v1/admins/:id
@@ -214,7 +212,7 @@ module.exports = {
   registerAdminCtrl,
   loginAdminCtrl,
   getAdminsCtrl,
-  getAdminCtrl,
+  getAdminProfileCtrl,
   updateAdminCtrl,
   deleteAdminCtrl,
   adminSuspendTeacherCtrl,

@@ -75,19 +75,36 @@ const getAdminProfileCtrl = AsyncHandler(async (req, res) => {
 // @desc Update Admins
 // @route PUT /API/v1/admins/:id
 // @access Private
-const updateAdminCtrl = (req, res) => {
-  try {
-    res.status(201).json({
+const updateAdminCtrl = AsyncHandler(async (req, res) => {
+  const AdminId = req.userAuth._id;
+  const { email, name, password } = req.body;
+
+  const emailExist = await Admin.findOne({ email });
+
+  if (emailExist) {
+    throw new Error("This email already exists");
+  } else {
+    // Update
+    const UpdatedAdmin = await Admin.findByIdAndUpdate(
+      AdminId,
+      {
+        email,
+        password,
+        name,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    res.status(200).json({
       status: "success",
-      data: "Update admin",
-    });
-  } catch (error) {
-    res.json({
-      status: "failed",
-      error: error.message,
+      data: UpdatedAdmin,
+      message: "Admin updated successfully",
     });
   }
-};
+});
 
 // @desc Delete Admin
 // @route DELETE /API/v1/admins/:id

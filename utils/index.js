@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const modelNames = {
   admin: "Admin",
@@ -23,4 +24,23 @@ const generateHashedPassword = async (cleanPassword) => {
   return hashedPassword;
 };
 
-module.exports = { generateHashedPassword, modelNames };
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_KEY, { expiresIn: "5d" });
+};
+
+const verifyToken = (token) => {
+  return jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+    if (err) {
+      return false;
+    } else {
+      return decoded;
+    }
+  });
+};
+
+module.exports = {
+  generateHashedPassword,
+  modelNames,
+  generateToken,
+  verifyToken,
+};

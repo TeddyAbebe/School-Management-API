@@ -1,5 +1,6 @@
 const AsyncHandler = require("express-async-handler");
 const Admin = require("../../../model/Staff/Admin");
+const { generateToken, verifyToken } = require("../../../utils");
 
 // @desc Register Admin
 // @route POST /API/v1/admins/register
@@ -24,26 +25,20 @@ const registerAdminCtrl = AsyncHandler(async (req, res) => {
 // @desc Login Admin
 // @route POST /API/v1/admins/login
 // @access Private
-const loginAdminCtrl = async (req, res) => {
+const loginAdminCtrl = AsyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const adminToLogin = new Admin({ email, password });
 
-  try {
-    const loggedInAdmin = await adminToLogin.loginAdmin();
+  const loggedInAdmin = await adminToLogin.loginAdmin();
+  const token = generateToken(loggedInAdmin._id);
+  const verify = verifyToken(token);
 
-    req.userAuth = loggedInAdmin;
-    res.status(201).json({
-      status: "success",
-      data: loggedInAdmin,
-    });
-  } catch (error) {
-    res.json({
-      status: "failed",
-      error: error.message,
-    });
-  }
-};
+  res.status(201).json({
+    status: "success",
+    data: [generateToken(loggedInAdmin._id), loggedInAdmin, verify],
+  });
+});
 
 // @desc Get All Admins
 // @route GET /API/v1/admins
@@ -67,6 +62,7 @@ const getAdminsCtrl = (req, res) => {
 // @access Private
 const getAdminCtrl = (req, res) => {
   try {
+    console.log(req.userAuth);
     res.status(201).json({
       status: "success",
       data: "Single admin",

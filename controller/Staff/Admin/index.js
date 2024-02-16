@@ -62,7 +62,6 @@ const getAdminsCtrl = (req, res) => {
 // @access Private
 const getAdminCtrl = (req, res) => {
   try {
-    console.log(req.userAuth);
     res.status(201).json({
       status: "success",
       data: "Single admin",

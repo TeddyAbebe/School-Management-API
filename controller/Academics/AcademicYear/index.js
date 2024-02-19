@@ -6,7 +6,7 @@ const Admin = require("../../../model/Staff/Admin");
 // @route POST /api/v1/academic-years
 // @access Private
 const createAcademicYear = AsyncHandler(async (req, res) => {
-  const { name, fromYear, toYear, createdBy } = req.body;
+  const { name, fromYear, toYear } = req.body;
 
   // Check if exists
   const academicYear = await AcademicYear.findOne({ name });
@@ -56,8 +56,39 @@ const getAcademicYear = AsyncHandler(async (req, res) => {
   });
 });
 
+// @desc Update Academic Year
+// @route PUT /api/v1/academic-years/:id
+// @access Private
+const updateAcademicYear = AsyncHandler(async (req, res) => {
+  const { name, fromYear, toYear } = req.body;
+  const academicYearID = req.params.id;
+
+  // Check name exists
+  const academicYearFound = await AcademicYear.findOne({ name });
+
+  if (academicYearFound) {
+    throw new Error("Academic year already exists");
+  }
+
+  // Updated
+  const academicYear = await AcademicYear.findByIdAndUpdate(
+    academicYearID,
+    { name, fromYear, toYear, createdBy: req.userAuth._id },
+    {
+      new: true,
+    }
+  );
+
+  res.status(201).json({
+    status: "success",
+    message: "Academic year updated successfully",
+    data: academicYear,
+  });
+});
+
 module.exports = {
   createAcademicYear,
   getAcademicYears,
   getAcademicYear,
+  updateAcademicYear,
 };

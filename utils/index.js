@@ -25,7 +25,6 @@ const generateHashedPassword = async (cleanPassword) => {
 };
 
 const verifyPassword = async function (enteredPassword) {
-  console.log("this", this);
   const isPasswordValid = await bcrypt.compare(enteredPassword, this.password);
   return isPasswordValid;
 };

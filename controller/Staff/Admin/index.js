@@ -8,7 +8,7 @@ const {
 } = require("../../../utils");
 
 // @desc Register Admin
-// @route POST /API/v1/admins/register
+// @route POST /api/v1/admins/register
 // @access Private
 const registerAdminCtrl = AsyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
@@ -29,7 +29,7 @@ const registerAdminCtrl = AsyncHandler(async (req, res) => {
 });
 
 // @desc Login Admin
-// @route POST /API/v1/admins/login
+// @route POST /api/v1/admins/login
 // @access Private
 const loginAdminCtrl = AsyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -46,7 +46,7 @@ const loginAdminCtrl = AsyncHandler(async (req, res) => {
 });
 
 // @desc Get All Admins
-// @route GET /API/v1/admins
+// @route GET /api/v1/admins
 // @access Private
 const getAdminsCtrl = AsyncHandler(async (req, res) => {
   const admins = await Admin.find();
@@ -59,7 +59,7 @@ const getAdminsCtrl = AsyncHandler(async (req, res) => {
 });
 
 // @desc Get Single Admins
-// @route GET /API/v1/admins/:id
+// @route GET /api/v1/admins/:id
 // @access Private
 const getAdminProfileCtrl = AsyncHandler(async (req, res) => {
   const Id = req.userAuth._id;
@@ -78,7 +78,7 @@ const getAdminProfileCtrl = AsyncHandler(async (req, res) => {
 });
 
 // @desc Update Admins
-// @route PUT /API/v1/admins/:id
+// @route PUT /api/v1/admins/:id
 // @access Private
 const updateAdminCtrl = AsyncHandler(async (req, res) => {
   const adminId = req.userAuth._id;
@@ -105,7 +105,7 @@ const updateAdminCtrl = AsyncHandler(async (req, res) => {
 });
 
 // @desc Delete Admin
-// @route DELETE /API/v1/admins/:id
+// @route DELETE /api/v1/admins/:id
 // @access Private
 const deleteAdminCtrl = (req, res) => {
   try {
@@ -122,7 +122,7 @@ const deleteAdminCtrl = (req, res) => {
 };
 
 // @desc Admin Suspend Teacher
-// @route PUT /API/v1/admins/suspend/teacher/:id
+// @route PUT /api/v1/admins/suspend/teacher/:id
 // @access Private
 const adminSuspendTeacherCtrl = (req, res) => {
   try {
@@ -139,7 +139,7 @@ const adminSuspendTeacherCtrl = (req, res) => {
 };
 
 // @desc Admin Un-Suspend Teacher
-// @route PUT /API/v1/admins/unsuspend/teacher/:id
+// @route PUT /api/v1/admins/unsuspend/teacher/:id
 // @access Private
 const adminUnSuspendTeacherCtrl = (req, res) => {
   try {
@@ -156,7 +156,7 @@ const adminUnSuspendTeacherCtrl = (req, res) => {
 };
 
 // @desc Admin Withdraw Teacher
-// @route PUT /API/v1/admins/withdraw/teacher/:id
+// @route PUT /api/v1/admins/withdraw/teacher/:id
 // @access Private
 const adminWithdrawTeacherCtrl = (req, res) => {
   try {
@@ -173,7 +173,7 @@ const adminWithdrawTeacherCtrl = (req, res) => {
 };
 
 // @desc Admin Un-Withdraw Teacher
-// @route PUT /API/v1/admins/unwithdraw/teacher/:id
+// @route PUT /api/v1/admins/unwithdraw/teacher/:id
 // @access Private
 const adminUnWithdrawTeacherCtrl = (req, res) => {
   try {
@@ -190,7 +190,7 @@ const adminUnWithdrawTeacherCtrl = (req, res) => {
 };
 
 // @desc Admin Publishing Exam result
-// @route PUT /API/v1/admins/publish/exam/:id
+// @route PUT /api/v1/admins/publish/exam/:id
 // @access Private
 const adminPublishExamCtrl = (req, res) => {
   try {
@@ -207,7 +207,7 @@ const adminPublishExamCtrl = (req, res) => {
 };
 
 // @desc Admin Un-Publishing exam result
-// @route PUT /API/v1/admins/unpublish/exam/:id
+// @route PUT /api/v1/admins/unpublish/exam/:id
 // @access Private
 const adminUnPublishExamCtrl = (req, res) => {
   try {

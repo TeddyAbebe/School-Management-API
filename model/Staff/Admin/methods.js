@@ -1,4 +1,4 @@
-const { generateHashedPassword, modelNames } = require("../../../utils");
+const { generateHashedPassword, modelNames, verifyPassword } = require("../../../utils");
 const bcrypt = require("bcryptjs");
 
 async function registerAdmin() {
@@ -6,9 +6,9 @@ async function registerAdmin() {
 
   try {
     // Check if Admin exists
-    const adminExists = await this.model(modelNames.admin).findOne({ email });
+    const foundAdmin = await this.model(modelNames.admin).findOne({ email });
 
-    if (adminExists) {
+    if (foundAdmin) {
       const error = new Error("Admin already exists");
 
       error.status = 409; // HTTP Conflict status code
@@ -29,10 +29,7 @@ async function registerAdmin() {
   }
 }
 
-const verifyPassword = async function (enteredPassword) {
-  const isPasswordValid = await bcrypt.compare(enteredPassword, this.password);
-  return isPasswordValid;
-};
+
 
 async function loginAdmin() {
   const { email, password } = this;

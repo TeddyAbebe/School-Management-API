@@ -24,6 +24,12 @@ const generateHashedPassword = async (cleanPassword) => {
   return hashedPassword;
 };
 
+const verifyPassword = async function (enteredPassword) {
+  console.log("this", this);
+  const isPasswordValid = await bcrypt.compare(enteredPassword, this.password);
+  return isPasswordValid;
+};
+
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_KEY, { expiresIn: "5d" });
 };
@@ -39,8 +45,9 @@ const verifyToken = (token) => {
 };
 
 module.exports = {
-  generateHashedPassword,
   modelNames,
+  generateHashedPassword,
+  verifyPassword,
   generateToken,
   verifyToken,
 };

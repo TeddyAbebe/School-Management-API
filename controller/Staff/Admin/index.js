@@ -1,6 +1,11 @@
 const AsyncHandler = require("express-async-handler");
 const Admin = require("../../../model/Staff/Admin");
-const { generateToken, verifyToken } = require("../../../utils");
+
+const {
+  generateToken,
+  verifyToken,
+  generateHashedPassword,
+} = require("../../../utils");
 
 // @desc Register Admin
 // @route POST /API/v1/admins/register
@@ -76,34 +81,27 @@ const getAdminProfileCtrl = AsyncHandler(async (req, res) => {
 // @route PUT /API/v1/admins/:id
 // @access Private
 const updateAdminCtrl = AsyncHandler(async (req, res) => {
-  const AdminId = req.userAuth._id;
+  const adminId = req.userAuth._id;
   const { email, name, password } = req.body;
 
-  const emailExist = await Admin.findOne({ email });
+  const updatedData = {
+    ...(email && { email }),
+    ...(name && { name }),
+    ...(password && { password }),
+  };
 
-  if (emailExist) {
-    throw new Error("This email already exists");
-  } else {
-    // Update
-    const UpdatedAdmin = await Admin.findByIdAndUpdate(
-      AdminId,
-      {
-        email,
-        password,
-        name,
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+  const data = {
+    adminId,
+    updatedData,
+  };
 
-    res.status(200).json({
-      status: "success",
-      data: UpdatedAdmin,
-      message: "Admin updated successfully",
-    });
-  }
+  const NewAdmin = await Admin.updateAdminProfile(data);
+
+  res.status(200).json({
+    status: "success",
+    message: "Admin Updated successfully",
+    data: NewAdmin,
+  });
 });
 
 // @desc Delete Admin

@@ -38,4 +38,15 @@ async function removeAcademicYearFromAdmin(academicYearID) {
   );
 }
 
-module.exports = { updateAdminProfile, removeAcademicYearFromAdmin };
+async function removeAcademicTermFromAdmin(academicTermID) {
+  await this.findOneAndUpdate(
+    { academicTerms: academicTermID },
+    { $pull: { academicTerms: academicTermID } }
+  );
+}
+
+module.exports = {
+  updateAdminProfile,
+  removeAcademicYearFromAdmin,
+  removeAcademicTermFromAdmin,
+};

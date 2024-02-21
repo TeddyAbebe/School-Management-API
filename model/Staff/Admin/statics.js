@@ -31,4 +31,11 @@ async function updateAdminProfile(data) {
   return updatedAdmin;
 }
 
-module.exports = { updateAdminProfile };
+async function removeAcademicYearFromAdmin(academicYearID) {
+  await this.findOneAndUpdate(
+    { academicYears: academicYearID },
+    { $pull: { academicYears: academicYearID } }
+  );
+}
+
+module.exports = { updateAdminProfile, removeAcademicYearFromAdmin };

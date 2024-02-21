@@ -86,6 +86,10 @@ const updateAcademicYear = AsyncHandler(async (req, res) => {
 const deleteAcademicYear = AsyncHandler(async (req, res) => {
   const academicYearID = req.params.id;
 
+  // Update the Admin
+  await Admin.removeAcademicYearFromAdmin(academicYearID);
+
+  // Remove the academic year document
   await AcademicYear.findByIdAndDelete(academicYearID);
 
   res.status(201).json({
